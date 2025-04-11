@@ -31,6 +31,25 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
+    //used reading JSON file example from Markus Eger's Lecture 4: Coupling
+    void LoadEnemiesJSON(){
+        enemy_types = new Dictionary<string, Enemy>();                  
+        var enemytext = Resources.Load<TextAsset>('enemies');           //variable to obtain the enemies.json
+
+        JToken jo = JToken.Parse(enemytext.text);
+        foreach (var enemy in jo){
+            Enemy en = enemy.ToObject<Enemy>();                         //to read the enemies type
+            enemy_types[en.name] = en;
+        }
+    }
+
+    //used https://stackoverflow.com/questions/11126242/using-jsonconvert-deserializeobject-to-deserialize-json-to-a-c-sharp-poco-class to understand DeserializeObject
+    void LoadLevelsJSON(){
+
+        var leveltext = Resources.Load<TextAsset>('levels');            //to obtain the levels.json
+        levels = JsonConvert.DeserializeObject<List<Level>>(leveltext.text);
+    }
+
     public void StartLevel(string levelname)
     {
         level_selector.gameObject.SetActive(false);
@@ -81,7 +100,7 @@ public class EnemySpawner : MonoBehaviour
 }
 
 //enemy class
-[Serializable]
+[System.Serializable]
 public class Enemy{
     public string name;
     public int sprite;
@@ -90,19 +109,20 @@ public class Enemy{
     public int damage;
 }
 
-[Serializable]
+//level class
+[System.Serializable]
 public class Level{
     public string name;
-    public string wave;
+    public int wave;
     public List<Spawn> spawns;  //double check?
 }
 
-[Serializable]
+[System.Serializable]
 public class Spawn{
     public string enemy;
-    public int count;
-    public int hp;
-    public delay;
+    public string count;
+    public string hp;
+    public int delay;
     public List<int> sequence;      //double check?
     public string location;
 }
