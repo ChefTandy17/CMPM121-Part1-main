@@ -44,7 +44,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    //used https://stackoverflow.com/questions/11126242/using-jsonconvert-deserializeobject-to-deserialize-json-to-a-c-sharp-poco-class to understand DeserializeObject
+    ///used https://stackoverflow.com/questions/11126242/using-jsonconvert-deserializeobject-to-deserialize-json-to-a-c-sharp-poco-class to understand DeserializeObject
     void LoadLevelsJSON(){
 
         var leveltext = Resources.Load<TextAsset>("levels");            //to obtain the levels.json
